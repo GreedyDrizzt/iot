@@ -10,9 +10,7 @@ from bottle import route, run, template, request, get, static_file
 #
 # from collections import defaultdict
 
-
 sits = 0
-
 
 @route('/chair/<chair_id>')
 def rpi(chair_id):
@@ -24,7 +22,12 @@ def rpi(chair_id):
 
 @route('/')
 def index():
-    return template('index', count=sits)
+    return template('index', count=sits if sits < 24 else 24)
+
+
+@get('/get_count')
+def get_count():
+    return str(sits)
 
 
 @get('/css/<filename>')
@@ -41,6 +44,10 @@ def js(filename):
 def js(filename):
     return static_file(filename, root='webfonts/')
 
+
+@get('/imgs/<filename>')
+def js(filename):
+    return static_file(filename, root='imgs/')
 
 # def humphery_data():
 #     columns = defaultdict(list)  # each value in each column is appended to a list
